@@ -1,0 +1,879 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.5.57">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="清水　団　Dan Shimizu (@dannchu)">
+<meta name="dcterms.date" content="2025-02-16">
+
+<title>オンライン整数大辞典(OEIS)に数列を登録してみた！</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="20250216_files/libs/clipboard/clipboard.min.js"></script>
+<script src="20250216_files/libs/quarto-html/quarto.js"></script>
+<script src="20250216_files/libs/quarto-html/popper.min.js"></script>
+<script src="20250216_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="20250216_files/libs/quarto-html/anchor.min.js"></script>
+<link href="20250216_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="20250216_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="20250216_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="20250216_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="20250216_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+</head>
+
+<body>
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+<div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+  <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#はじめに自己紹介" id="toc-はじめに自己紹介" class="nav-link active" data-scroll-target="#はじめに自己紹介">はじめに（自己紹介）</a></li>
+  <li><a href="#横山-明日希さんのxのポスト" id="toc-横山-明日希さんのxのポスト" class="nav-link" data-scroll-target="#横山-明日希さんのxのポスト">横山 明日希さんのXのポスト</a></li>
+  <li><a href="#julia言語" id="toc-julia言語" class="nav-link" data-scroll-target="#julia言語">Julia言語</a>
+  <ul class="collapse">
+  <li><a href="#julia言語の紹介" id="toc-julia言語の紹介" class="nav-link" data-scroll-target="#julia言語の紹介">Julia言語の紹介</a></li>
+  <li><a href="#julia言語で調べてみる" id="toc-julia言語で調べてみる" class="nav-link" data-scroll-target="#julia言語で調べてみる">Julia言語で調べてみる</a></li>
+  <li><a href="#式を拡張してみる" id="toc-式を拡張してみる" class="nav-link" data-scroll-target="#式を拡張してみる">式を拡張してみる</a></li>
+  </ul></li>
+  <li><a href="#オンライン整数大辞典oeis" id="toc-オンライン整数大辞典oeis" class="nav-link" data-scroll-target="#オンライン整数大辞典oeis">オンライン整数大辞典(OEIS)</a>
+  <ul class="collapse">
+  <li><a href="#oeisへ数列の登録" id="toc-oeisへ数列の登録" class="nav-link" data-scroll-target="#oeisへ数列の登録">OEISへ数列の登録</a></li>
+  <li><a href="#oeisのメンター" id="toc-oeisのメンター" class="nav-link" data-scroll-target="#oeisのメンター">OEISのメンター</a></li>
+  <li><a href="#三角形の行で読み取るシーケンス" id="toc-三角形の行で読み取るシーケンス" class="nav-link" data-scroll-target="#三角形の行で読み取るシーケンス">三角形の行で読み取るシーケンス</a></li>
+  <li><a href="#tnkのテーブルを作成" id="toc-tnkのテーブルを作成" class="nav-link" data-scroll-target="#tnkのテーブルを作成">T(n,k)のテーブルを作成</a></li>
+  <li><a href="#数列が承認される" id="toc-数列が承認される" class="nav-link" data-scroll-target="#数列が承認される">数列が承認される！</a></li>
+  <li><a href="#実はいろいろあった" id="toc-実はいろいろあった" class="nav-link" data-scroll-target="#実はいろいろあった">実はいろいろあった</a></li>
+  </ul></li>
+  </ul>
+</nav>
+</div>
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">オンライン整数大辞典(OEIS)に数列を登録してみた！</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>清水　団　Dan Shimizu (<a href="https://twitter.com/dannchu"><span class="citation" data-cites="dannchu">@dannchu</span></a>) </p>
+          </div>
+  </div>
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">February 16, 2025</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p>本日の内容のサイトはこちらです。（QRコード）</p>
+<p><img src="https://shimizudan.github.io/20241027sundaymath/QR.png" class="img-fluid" style="width:50.0%"></p>
+<div style="page-break-after: always;"></div>
+<section id="はじめに自己紹介" class="level2">
+<h2 class="anchored" data-anchor-id="はじめに自己紹介">はじめに（自己紹介）</h2>
+<p><img src="001.png" class="img-fluid"></p>
+<div style="page-break-after: always;"></div>
+</section>
+<section id="横山-明日希さんのxのポスト" class="level2">
+<h2 class="anchored" data-anchor-id="横山-明日希さんのxのポスト">横山 明日希さんのXのポスト</h2>
+<p><a href="https://x.com/asunokibou">横山 明日希（<span class="citation" data-cites="asunokibou">@asunokibou</span>）</a>さんのXのポストで次のような問題がありました。</p>
+<p><img src="002.png" class="img-fluid"></p>
+<p><a href="https://x.com/asunokibou/status/1858851048510947649">https://x.com/asunokibou/status/1858851048510947649</a></p>
+<div style="page-break-after: always;"></div>
+<p>(1)の<span class="math inline">\(\fbox{ア}\)</span>〜<span class="math inline">\(\fbox{キ}\)</span>に異なる自然数を入れる場合を考えます。</p>
+<p><span class="math display">\[\frac{1}{\fbox{ア}}+\frac{2}{\fbox{イ}}+\frac{3}{\fbox{ウ}}+\frac{4}{\fbox{エ}}+\frac{5}{\fbox{オ}}+\frac{6}{\fbox{カ}}+\frac{7}{\fbox{キ}}=7\]</span></p>
+<p>まずは解の1組はちょっと考えるとわかります。</p>
+<p><span class="math display">\[\frac{1}{1}+\frac{2}{2}+\frac{3}{3}+\frac{4}{4}+\frac{5}{5}+\frac{6}{6}+\frac{7}{7}=7\]</span></p>
+<p>「他にあるのか？あるとしたら何組あるか？」が気になりました。</p>
+<div style="page-break-after: always;"></div>
+</section>
+<section id="julia言語" class="level2">
+<h2 class="anchored" data-anchor-id="julia言語">Julia言語</h2>
+<p>まずは，いつものようにJulia言語で調べてみることにしました。</p>
+<section id="julia言語の紹介" class="level3">
+<h3 class="anchored" data-anchor-id="julia言語の紹介">Julia言語の紹介</h3>
+<p><a href="https://julialang.org">https://julialang.org</a></p>
+<p><img src="https://shimizudan.github.io/20240225-2sundaymath/pic24.png" class="img-fluid" style="width:70.0%"></p>
+<p>Juliaは統計処理や科学技術計算、機械学習に強いプログラミング言語といわれています。 例えばStatsBase.jlやDistributions.jlなどのパッケージを使用すると、統計モデリングや仮説検定、回帰分析、時系列分析などの統計処理を行えます。</p>
+<p>また，<a href="https://quarto.org">quarto</a>というパブリッシング・システムを用いてWebページを作成しました。基本<code>Markdown</code>で，コードの読み込みも容易です。今回は利用していませんが，新たな数式処理の<a href="https://typst.app">typst</a>も実装可能です。</p>
+<div style="page-break-after: always;"></div>
+</section>
+<section id="julia言語で調べてみる" class="level3">
+<h3 class="anchored" data-anchor-id="julia言語で調べてみる">Julia言語で調べてみる</h3>
+<div id="2eb089c1" class="cell" data-execution_count="1">
+<details class="code-fold">
+<summary>Show the code</summary>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">Combinatorics</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> [i for i <span class="op">=</span><span class="fl">1</span><span class="op">:</span><span class="fl">9</span>] <span class="op">|&gt;</span> <span class="fu">x-&gt;permutations</span>(x,<span class="fl">7</span>)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>Y <span class="op">=</span> []</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> x <span class="op">∈</span> X</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="fu">sum</span>(i<span class="op">//</span>x[i] <span class="cf">for</span> i<span class="op">=</span><span class="fl">1</span><span class="op">:</span><span class="fl">7</span>) <span class="op">==</span> <span class="fl">7</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>        <span class="fu">push!</span>(Y,x)</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">end</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="cf">end</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>Y</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display" data-execution_count="7">
+<pre><code>54-element Vector{Any}:
+ [1, 2, 3, 4, 5, 6, 7]
+ [1, 2, 3, 8, 5, 4, 7]
+ [1, 2, 4, 3, 5, 8, 6]
+ [1, 2, 6, 8, 5, 3, 7]
+ [1, 2, 6, 8, 5, 9, 3]
+ [1, 2, 9, 3, 6, 4, 7]
+ [1, 2, 9, 3, 6, 8, 4]
+ [1, 2, 9, 4, 3, 6, 7]
+ [1, 2, 9, 6, 5, 3, 7]
+ [1, 2, 9, 8, 3, 4, 7]
+ [1, 2, 9, 8, 5, 3, 6]
+ [1, 3, 2, 4, 5, 9, 6]
+ [1, 3, 2, 8, 6, 4, 7]
+ ⋮
+ [4, 6, 9, 2, 5, 8, 3]
+ [4, 8, 6, 2, 5, 3, 7]
+ [4, 8, 6, 2, 5, 9, 3]
+ [4, 8, 9, 2, 5, 3, 6]
+ [4, 8, 9, 3, 6, 2, 7]
+ [4, 8, 9, 6, 2, 3, 7]
+ [6, 1, 4, 3, 5, 8, 7]
+ [6, 1, 9, 8, 5, 3, 7]
+ [6, 3, 1, 8, 5, 9, 7]
+ [6, 4, 9, 2, 5, 3, 7]
+ [6, 4, 9, 8, 2, 3, 7]
+ [6, 8, 9, 2, 4, 3, 7]</code></pre>
+</div>
+</div>
+<p>54通りあります。一つ確認してみましょう。</p>
+<div style="page-break-after: always;"></div>
+<pre><code>[4, 8, 9, 2, 5, 3, 6]</code></pre>
+<p><span class="math display">\[\begin{align}
+&amp;\frac{1}{4}+\frac{2}{8}+\frac{3}{9}+\frac{4}{2}+\frac{5}{5}+\frac{6}{3}+\frac{7}{6}
+=\frac{1}{4}+\frac{1}{4}+\frac{1}{3}+2+1+2+\frac{7}{6}
+=7\end{align}\]</span></p>
+<div style="page-break-after: always;"></div>
+</section>
+<section id="式を拡張してみる" class="level3">
+<h3 class="anchored" data-anchor-id="式を拡張してみる">式を拡張してみる</h3>
+<p>7個をを求めた後に，「6個だとどうなるだろう？」と思いますよね。</p>
+<p><span class="math inline">\(n=6\)</span>のとき</p>
+<p><span class="math display">\[\frac{1}{\fbox{ア}}+\frac{2}{\fbox{イ}}+\frac{3}{\fbox{ウ}}+\frac{4}{\fbox{エ}}+\frac{5}{\fbox{オ}}+\frac{6}{\fbox{カ}}=6\]</span></p>
+<div id="ec85e9dd" class="cell" data-execution_count="2">
+<details class="code-fold">
+<summary>Show the code</summary>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">Combinatorics</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> [i for i <span class="op">=</span><span class="fl">1</span><span class="op">:</span><span class="fl">9</span>] <span class="op">|&gt;</span> <span class="fu">x-&gt;permutations</span>(x,<span class="fl">6</span>)</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>Y <span class="op">=</span> []</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> x <span class="op">∈</span> X</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="fu">sum</span>(i<span class="op">//</span>x[i] <span class="cf">for</span> i<span class="op">=</span><span class="fl">1</span><span class="op">:</span><span class="fl">6</span>) <span class="op">==</span> <span class="fl">6</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>        <span class="fu">push!</span>(Y,x)</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">end</span></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a><span class="cf">end</span></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>Y</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display" data-execution_count="8">
+<pre><code>40-element Vector{Any}:
+ [1, 2, 3, 4, 5, 6]
+ [1, 2, 3, 8, 5, 4]
+ [1, 2, 6, 8, 5, 3]
+ [1, 2, 9, 3, 6, 4]
+ [1, 2, 9, 4, 3, 6]
+ [1, 2, 9, 6, 5, 3]
+ [1, 2, 9, 8, 3, 4]
+ [1, 3, 2, 8, 6, 4]
+ [1, 3, 4, 2, 6, 8]
+ [1, 3, 9, 2, 4, 8]
+ [1, 3, 9, 2, 5, 6]
+ [1, 3, 9, 8, 2, 6]
+ [1, 4, 2, 3, 5, 9]
+ ⋮
+ [3, 4, 1, 8, 5, 9]
+ [3, 6, 9, 4, 5, 2]
+ [3, 8, 4, 6, 5, 2]
+ [4, 8, 6, 2, 5, 3]
+ [4, 8, 9, 3, 6, 2]
+ [4, 8, 9, 6, 2, 3]
+ [6, 1, 4, 3, 5, 8]
+ [6, 1, 9, 8, 5, 3]
+ [6, 3, 1, 8, 5, 9]
+ [6, 4, 9, 2, 5, 3]
+ [6, 4, 9, 8, 2, 3]
+ [6, 8, 9, 2, 4, 3]</code></pre>
+</div>
+</div>
+<div style="page-break-after: always;"></div>
+<p>個数を変化させると面白そうだったので，<span class="math inline">\(n=1\)</span>から<span class="math inline">\(n=9\)</span>まで調べてみました。</p>
+<p><span class="math inline">\(n=1\)</span>から<span class="math inline">\(9\)</span>のとき</p>
+<p><span class="math display">\[\frac{1}{x_1}+\frac{2}{x_2}+\cdots+\frac{n}{x_n}=n\]</span></p>
+<div id="6f26d39a" class="cell" data-execution_count="3">
+<details class="code-fold">
+<summary>Show the code</summary>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">Combinatorics</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">c</span>(n)</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>    X <span class="op">=</span> [i for i <span class="op">=</span><span class="fl">1</span><span class="op">:</span><span class="fl">9</span>] <span class="op">|&gt;</span> <span class="fu">x-&gt;permutations</span>(x,n)</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>    Y <span class="op">=</span> []</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> x <span class="op">∈</span> X</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="fu">sum</span>(i<span class="op">//</span>x[i] <span class="cf">for</span> i<span class="op">=</span><span class="fl">1</span><span class="op">:</span>n) <span class="op">==</span> n</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>            <span class="fu">push!</span>(Y,x)</span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>        <span class="cf">end</span></span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>    <span class="cf">end</span></span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>    Y <span class="op">|&gt;</span> length</span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a><span class="cf">end</span></span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">9</span></span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>    <span class="fu">print</span>(<span class="st">"</span><span class="sc">$</span>(<span class="fu">c</span>(i))<span class="st">,"</span>)</span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a><span class="cf">end</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>1,1,3,6,16,40,54,30,1,</code></pre>
+</div>
+</div>
+<div style="page-break-after: always;"></div>
+</section>
+</section>
+<section id="オンライン整数大辞典oeis" class="level2">
+<h2 class="anchored" data-anchor-id="オンライン整数大辞典oeis">オンライン整数大辞典(OEIS)</h2>
+<section id="oeisへ数列の登録" class="level3">
+<h3 class="anchored" data-anchor-id="oeisへ数列の登録">OEISへ数列の登録</h3>
+<p>数列が出てくると<a href="https://oeis.org">オンライン整数大辞典(OEIS)</a>で調べたくなります。そして調べたときに，「その数列はないよ。登録する？」と表示されたときはチャンスです！みなさん，登録にチャレンジしてみましょう！</p>
+<p><img src="003.png" class="img-fluid"></p>
+<div style="page-break-after: always;"></div>
+</section>
+<section id="oeisのメンター" class="level3">
+<h3 class="anchored" data-anchor-id="oeisのメンター">OEISのメンター</h3>
+<p>アカウントを作って登録すると，メンターがいろいろ提案してくれます。</p>
+<ul>
+<li><a href="https://oeis.org/wiki/User:Michel_Marcus">Michel Marcus</a>さんから</li>
+</ul>
+<p>「数列はc(n)じゃなくてa(n)がいいよ。この数列はこれで終わり？有限？」</p>
+<p>と質問がありました。そこで，数列をc(n)からa(n)に修正して</p>
+<p>「シーケンスはc(n)からa(n)に変更しました。このシーケンスは有限ですが、拡張できます。現在、1桁の数字1から9までからn個の整数を選択し、それらを順列に並べることによって形成されています。しかし、これは代わりに1からmまでの数字を選択することで一般化できます。mの値ごとに、有限列が生成できると思います。」</p>
+<p>と返しました。</p>
+<div style="page-break-after: always;"></div>
+</section>
+<section id="三角形の行で読み取るシーケンス" class="level3">
+<h3 class="anchored" data-anchor-id="三角形の行で読み取るシーケンス">三角形の行で読み取るシーケンス</h3>
+<p>今度は，<a href="https://oeis.org/wiki/User:Andrew_Howroyd">Andrew Howroyd</a> さんからいくつかの提案がありました。</p>
+<ul>
+<li><p>「ASCII文字のみにしてください。（特別な下付き文字/上付き文字ではありません）」</p></li>
+<li><p>n=1…9からの制限が取り除かれれば、これははるかに良いだろうと考えます。それはどのように数字を変えますか？それ以外の場合は、n がシーケンスの長さであり、数字が 1..k. から選択される三角形 T(n,k) を作成します。 (これはあなたが持っているものに最も近いでしょう)</p></li>
+<li><p>例のセクションは醜いです。（結果のプレゼンテーションを無視することはできません）。プログラムから配列を出力するだけではありません。例：a(3) = 3の解は1/1 + 2/2 + 3/3 = 1/1 + 2/4 + 3/2 = 1/2 + 2/1 + 3/6 = 3です。目に優しいと思います。</p></li>
+</ul>
+<p>なるほど，こうやっていろんな方が指摘してくれるのか。ありがたい！</p>
+<div style="page-break-after: always;"></div>
+<p>三角形の行で読み取るシーケンス： <span class="math inline">\(T(n,k)\)</span></p>
+<ul>
+<li><p><span class="math inline">\(n\)</span>行目には<span class="math inline">\(n\)</span>個の数字が並びます。</p></li>
+<li><p><span class="math inline">\(n\)</span>行目の<span class="math inline">\(k\)</span>番目の数字は</p></li>
+</ul>
+<p><span class="math display">\[ \frac{1}{x_1} + \frac{2}{x_2} + \cdots + \frac{k}{x_k} = k \]</span></p>
+<p>となる順列<span class="math inline">\((x_1,\,x_2,\,...,\,x_k)\)</span>の個数です。 ただし，<span class="math inline">\(x_1,\,x_2,\,...,\,x_k\)</span>は<span class="math inline">\(1\)</span>以上<span class="math inline">\(n\)</span>以下の異なる値です。</p>
+<div style="page-break-after: always;"></div>
+</section>
+<section id="tnkのテーブルを作成" class="level3">
+<h3 class="anchored" data-anchor-id="tnkのテーブルを作成">T(n,k)のテーブルを作成</h3>
+<p>Andrew Howroyd さんがテーブルを作ってくれました。（<span class="math inline">\(n=9\)</span>まで） <span class="math inline">\(n=13\)</span>までのテーブルを書いてみました。</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: center;">T(n,k)</th>
+<th style="text-align: left;">k = 1..n</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">T(1,k)</td>
+<td style="text-align: left;">1;</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">T(2,k)</td>
+<td style="text-align: left;">1, 1;</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">T(3,k)</td>
+<td style="text-align: left;">1, 1, 1;</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">T(4,k)</td>
+<td style="text-align: left;">1, 1, 2, 1;</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">T(5,k)</td>
+<td style="text-align: left;">1, 1, 2, 1, 1;</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">T(6,k)</td>
+<td style="text-align: left;">1, 1, 3, 3, 4, 1;</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">T(7,k)</td>
+<td style="text-align: left;">1, 1, 3, 3, 4, 1, 1;</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">T(8,k)</td>
+<td style="text-align: left;">1, 1, 3, 5, 10, 11, 12, 1;</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">T(9,k)</td>
+<td style="text-align: left;">1, 1, 3, 6, 16, 40, 54, 30, 1;</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">T(10,k)</td>
+<td style="text-align: left;">1, 1, 3, 7, 25, 88, 184, 206, 102, 1;</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">T(11,k)</td>
+<td style="text-align: left;">1, 1, 3, 7, 25, 88, 184, 206, 102, 1, 1;</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">T(12,k)</td>
+<td style="text-align: left;">1, 1, 3, 13, 56, 244, 744, 1329, 1623, 746, 749, 1;</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">T(13,k)</td>
+<td style="text-align: left;">1, 1, 3, 13, 56, 244, 744, 1329, 1623, 746, 749, 1, 1;</td>
+</tr>
+</tbody>
+</table>
+<div style="page-break-after: always;"></div>
+</section>
+<section id="数列が承認される" class="level3">
+<h3 class="anchored" data-anchor-id="数列が承認される">数列が承認される！</h3>
+<p>承認された数列は<a href="https://oeis.org/A378322">A378322</a>です。</p>
+<div style="page-break-after: always;"></div>
+</section>
+<section id="実はいろいろあった" class="level3">
+<h3 class="anchored" data-anchor-id="実はいろいろあった">実はいろいろあった</h3>
+<p>流れをサラッと書いていますが，実はいろいろありました。こちらのサイトからご覧ください。</p>
+<p><a href="https://zenn.dev/dannchu/articles/bd199a5c014988">https://zenn.dev/dannchu/articles/bd199a5c014988</a></p>
+<div style="page-break-after: always;"></div>
+</section>
+</section>
+
+</main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    // For code content inside modals, clipBoardJS needs to be initialized with a container option
+    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

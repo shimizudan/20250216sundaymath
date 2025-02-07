@@ -1,0 +1,259 @@
+---
+title: "オンライン整数大辞典(OEIS)に数列を登録してみた！"
+author: "清水　団　Dan Shimizu ([@dannchu](https://twitter.com/dannchu)) "
+date: "2025/02/16"
+jupyter: julia-1.10
+format:
+  html:
+    toc: true
+    toc-location: right
+---
+
+本日の内容のサイトはこちらです。（QRコード）
+
+![](https://shimizudan.github.io/20241027sundaymath/QR.png){width=50%}
+
+{{< pagebreak >}}
+
+## はじめに（自己紹介）
+
+
+ ![](001.png)
+{{< pagebreak >}}
+
+
+## 横山 明日希さんのXのポスト
+
+[横山 明日希（@asunokibou）](https://x.com/asunokibou)さんのXのポストで次のような問題がありました。
+
+
+ ![](002.png)
+
+ [https://x.com/asunokibou/status/1858851048510947649](https://x.com/asunokibou/status/1858851048510947649)
+
+{{< pagebreak >}}
+
+(1)の$\fbox{ア}$〜$\fbox{キ}$に異なる自然数を入れる場合を考えます。
+
+
+
+$$\frac{1}{\fbox{ア}}+\frac{2}{\fbox{イ}}+\frac{3}{\fbox{ウ}}+\frac{4}{\fbox{エ}}+\frac{5}{\fbox{オ}}+\frac{6}{\fbox{カ}}+\frac{7}{\fbox{キ}}=7$$
+
+
+
+まずは解の1組はちょっと考えるとわかります。
+
+
+
+$$\frac{1}{1}+\frac{2}{2}+\frac{3}{3}+\frac{4}{4}+\frac{5}{5}+\frac{6}{6}+\frac{7}{7}=7$$
+
+
+
+「他にあるのか？あるとしたら何組あるか？」が気になりました。
+
+{{< pagebreak >}}
+
+
+
+## Julia言語
+
+まずは，いつものようにJulia言語で調べてみることにしました。
+
+### Julia言語の紹介
+ [https://julialang.org](https://julialang.org)
+
+ ![](https://shimizudan.github.io/20240225-2sundaymath/pic24.png){width=70%}
+
+Juliaは統計処理や科学技術計算、機械学習に強いプログラミング言語といわれています。 例えばStatsBase.jlやDistributions.jlなどのパッケージを使用すると、統計モデリングや仮説検定、回帰分析、時系列分析などの統計処理を行えます。
+
+また，[quarto](https://quarto.org)というパブリッシング・システムを用いてWebページを作成しました。基本`Markdown`で，コードの読み込みも容易です。今回は利用していませんが，新たな数式処理の[typst](https://typst.app)も実装可能です。
+
+
+{{< pagebreak >}}
+
+### Julia言語で調べてみる
+```{julia}
+#| code-fold: true
+#| code-summary: "Show the code"
+using Combinatorics
+
+X = [i for i =1:9] |> x->permutations(x,7)
+Y = []
+for x ∈ X
+    if sum(i//x[i] for i=1:7) == 7
+        push!(Y,x)
+    end
+end
+Y
+```
+
+
+ 54通りあります。一つ確認してみましょう。
+
+
+{{< pagebreak >}}
+ 
+```
+[4, 8, 9, 2, 5, 3, 6]
+```
+
+$$\begin{align}
+&\frac{1}{4}+\frac{2}{8}+\frac{3}{9}+\frac{4}{2}+\frac{5}{5}+\frac{6}{3}+\frac{7}{6}
+=\frac{1}{4}+\frac{1}{4}+\frac{1}{3}+2+1+2+\frac{7}{6}
+=7\end{align}$$
+
+
+{{< pagebreak >}}
+
+### 式を拡張してみる
+
+7個をを求めた後に，「6個だとどうなるだろう？」と思いますよね。
+
+$n=6$のとき
+
+$$\frac{1}{\fbox{ア}}+\frac{2}{\fbox{イ}}+\frac{3}{\fbox{ウ}}+\frac{4}{\fbox{エ}}+\frac{5}{\fbox{オ}}+\frac{6}{\fbox{カ}}=6$$
+
+```{julia}
+#| code-fold: true
+#| code-summary: "Show the code"
+using Combinatorics
+
+X = [i for i =1:9] |> x->permutations(x,6)
+Y = []
+for x ∈ X
+    if sum(i//x[i] for i=1:6) == 6
+        push!(Y,x)
+    end
+end
+Y
+```
+
+
+{{< pagebreak >}}
+
+個数を変化させると面白そうだったので，$n=1$から$n=9$まで調べてみました。
+
+
+$n=1$から$9$のとき
+
+$$\frac{1}{x_1}+\frac{2}{x_2}+\cdots+\frac{n}{x_n}=n$$
+
+
+
+```{julia}
+#| code-fold: true
+#| code-summary: "Show the code"
+using Combinatorics
+
+function c(n)
+    X = [i for i =1:9] |> x->permutations(x,n)
+    Y = []
+    for x ∈ X
+        if sum(i//x[i] for i=1:n) == n
+            push!(Y,x)
+        end
+    end
+    Y |> length
+end
+
+for i = 1:9
+    print("$(c(i)),")
+end
+```
+
+{{< pagebreak >}}
+
+## オンライン整数大辞典(OEIS)
+
+### OEISへ数列の登録
+数列が出てくると[オンライン整数大辞典(OEIS)](https://oeis.org)で調べたくなります。そして調べたときに，「その数列はないよ。登録する？」と表示されたときはチャンスです！みなさん，登録にチャレンジしてみましょう！
+
+
+![](003.png)
+
+{{< pagebreak >}}
+
+### OEISのメンター
+アカウントを作って登録すると，メンターがいろいろ提案してくれます。
+
+- [Michel Marcus](https://oeis.org/wiki/User:Michel_Marcus)さんから
+
+「数列はc(n)じゃなくてa(n)がいいよ。この数列はこれで終わり？有限？」
+
+と質問がありました。そこで，数列をc(n)からa(n)に修正して
+
+「シーケンスはc(n)からa(n)に変更しました。このシーケンスは有限ですが、拡張できます。現在、1桁の数字1から9までからn個の整数を選択し、それらを順列に並べることによって形成されています。しかし、これは代わりに1からmまでの数字を選択することで一般化できます。mの値ごとに、有限列が生成できると思います。」
+
+と返しました。
+
+{{< pagebreak >}}
+
+### 三角形の行で読み取るシーケンス
+
+今度は，[Andrew Howroyd](https://oeis.org/wiki/User:Andrew_Howroyd) さんからいくつかの提案がありました。
+
+- 「ASCII文字のみにしてください。（特別な下付き文字/上付き文字ではありません）」
+
+- n=1...9からの制限が取り除かれれば、これははるかに良いだろうと考えます。それはどのように数字を変えますか？それ以外の場合は、n がシーケンスの長さであり、数字が 1..k. から選択される三角形 T(n,k) を作成します。 (これはあなたが持っているものに最も近いでしょう)
+
+- 例のセクションは醜いです。（結果のプレゼンテーションを無視することはできません）。プログラムから配列を出力するだけではありません。例：a(3) = 3の解は1/1 + 2/2 + 3/3 = 1/1 + 2/4 + 3/2 = 1/2 + 2/1 + 3/6 = 3です。目に優しいと思います。
+
+
+なるほど，こうやっていろんな方が指摘してくれるのか。ありがたい！
+
+{{< pagebreak >}}
+
+
+三角形の行で読み取るシーケンス： $T(n,k)$ 
+
+- $n$行目には$n$個の数字が並びます。
+
+- $n$行目の$k$番目の数字は
+
+$$ \frac{1}{x_1} + \frac{2}{x_2} + \cdots + \frac{k}{x_k} = k $$ 
+
+となる順列$(x_1,\,x_2,\,...,\,x_k)$の個数です。
+ただし，$x_1,\,x_2,\,...,\,x_k$は$1$以上$n$以下の異なる値です。
+
+{{< pagebreak >}}
+### T(n,k)のテーブルを作成
+
+Andrew Howroyd さんがテーブルを作ってくれました。（$n=9$まで）
+$n=13$までのテーブルを書いてみました。
+
+|T(n,k)|k = 1..n|
+|:---:|:---|
+|T(1,k)|1;|
+|T(2,k)|1, 1;|
+|T(3,k)|1, 1, 1;|
+|T(4,k)|1, 1, 2, 1;|
+|T(5,k)|1, 1, 2, 1, 1;|
+|T(6,k)|1, 1, 3, 3, 4, 1;|
+|T(7,k)|1, 1, 3, 3, 4, 1, 1;|
+|T(8,k)|1, 1, 3, 5, 10, 11, 12, 1;|
+|T(9,k)|1, 1, 3, 6, 16, 40, 54, 30, 1;|
+|T(10,k)|1, 1, 3, 7, 25, 88, 184, 206, 102, 1;|
+|T(11,k)|1, 1, 3, 7, 25, 88, 184, 206, 102, 1, 1;|
+|T(12,k)|1, 1, 3, 13, 56, 244, 744, 1329, 1623, 746, 749, 1;|
+|T(13,k)|1, 1, 3, 13, 56, 244, 744, 1329, 1623, 746, 749, 1, 1;|
+
+
+{{< pagebreak >}}
+
+
+### 数列が承認される！
+
+承認された数列は[A378322](https://oeis.org/A378322)です。
+
+
+
+{{< pagebreak >}}
+
+### 実はいろいろあった
+
+流れをサラッと書いていますが，実はいろいろありました。こちらのサイトからご覧ください。
+
+[https://zenn.dev/dannchu/articles/bd199a5c014988](https://zenn.dev/dannchu/articles/bd199a5c014988)
+
+
+{{< pagebreak >}}

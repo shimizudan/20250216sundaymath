@@ -175,13 +175,13 @@ window.Quarto = {
 <p><a href="https://x.com/asunokibou/status/1858851048510947649">https://x.com/asunokibou/status/1858851048510947649</a></p>
 <div style="page-break-after: always;"></div>
 <p>(1)の<span class="math inline">\(\fbox{ア}\)</span>〜<span class="math inline">\(\fbox{キ}\)</span>に異なる自然数を入れる場合を考えます。</p>
-<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout callout-style-default callout-note no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
-<i class="callout-icon"></i>
+<i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Note
+問題
 </div>
 </div>
 <div class="callout-body-container callout-body">
@@ -189,13 +189,13 @@ Note
 </div>
 </div>
 <p>まずは解の1組はちょっと考えるとわかります。</p>
-<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout callout-style-default callout-note no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
-<i class="callout-icon"></i>
+<i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Note
+答え
 </div>
 </div>
 <div class="callout-body-container callout-body">
@@ -218,7 +218,7 @@ Note
 </section>
 <section id="julia言語で調べてみる" class="level3">
 <h3 class="anchored" data-anchor-id="julia言語で調べてみる">Julia言語で調べてみる</h3>
-<div id="9ff86fdc" class="cell" data-execution_count="1">
+<div id="41aab539" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">Combinatorics</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> [i for i <span class="op">=</span><span class="fl">1</span><span class="op">:</span><span class="fl">9</span>] <span class="op">|&gt;</span> <span class="fu">x-&gt;permutations</span>(x,<span class="fl">7</span>)</span>
@@ -229,7 +229,7 @@ Note
 <span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">end</span></span>
 <span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="cf">end</span></span>
 <span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>Y</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="57">
+<div class="cell-output cell-output-display" data-execution_count="87">
 <pre><code>54-element Vector{Any}:
  [1, 2, 3, 4, 5, 6, 7]
  [1, 2, 3, 8, 5, 4, 7]
@@ -262,13 +262,13 @@ Note
 <p>54通りあります。一つ確認してみましょう。</p>
 <div style="page-break-after: always;"></div>
 <pre><code>[4, 8, 9, 2, 5, 3, 6]</code></pre>
-<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout callout-style-default callout-note no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
-<i class="callout-icon"></i>
+<i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Note
+確認
 </div>
 </div>
 <div class="callout-body-container callout-body">
@@ -283,21 +283,20 @@ Note
 <section id="式を拡張してみる" class="level3">
 <h3 class="anchored" data-anchor-id="式を拡張してみる">式を拡張してみる</h3>
 <p>7個をを求めた後に，「6個だとどうなるだろう？」と思いますよね。</p>
-<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout callout-style-default callout-note no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
-<i class="callout-icon"></i>
+<i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Note
+<span class="math inline">\(n=6\)</span> のとき
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p><span class="math inline">\(n=6\)</span>のとき</p>
 <p><span class="math display">\[\frac{1}{\fbox{ア}}+\frac{2}{\fbox{イ}}+\frac{3}{\fbox{ウ}}+\frac{4}{\fbox{エ}}+\frac{5}{\fbox{オ}}+\frac{6}{\fbox{カ}}=6\]</span></p>
 </div>
 </div>
-<div id="4a9efb44" class="cell" data-execution_count="2">
+<div id="e2a8d91b" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">Combinatorics</span></span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> [i for i <span class="op">=</span><span class="fl">1</span><span class="op">:</span><span class="fl">9</span>] <span class="op">|&gt;</span> <span class="fu">x-&gt;permutations</span>(x,<span class="fl">6</span>)</span>
@@ -308,7 +307,7 @@ Note
 <span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">end</span></span>
 <span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a><span class="cf">end</span></span>
 <span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>Y</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="58">
+<div class="cell-output cell-output-display" data-execution_count="88">
 <pre><code>40-element Vector{Any}:
  [1, 2, 3, 4, 5, 6]
  [1, 2, 3, 8, 5, 4]
@@ -340,13 +339,13 @@ Note
 </div>
 <div style="page-break-after: always;"></div>
 <p>個数を変化させると面白そうだったので，<span class="math inline">\(n=1\)</span>から<span class="math inline">\(n=9\)</span>まで調べてみました。</p>
-<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout callout-style-default callout-note no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
-<i class="callout-icon"></i>
+<i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Note
+拡張
 </div>
 </div>
 <div class="callout-body-container callout-body">
@@ -357,7 +356,7 @@ Note
 <p><span class="math display">\[\frac{1}{x_1}+\frac{2}{x_2}+\cdots+\frac{n}{x_n}=n\]</span></p>
 </div>
 </div>
-<div id="b6616e5c" class="cell" data-execution_count="3">
+<div id="2745227e" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">Combinatorics</span></span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">c</span>(n)</span>
@@ -395,13 +394,13 @@ Note
 <ul>
 <li><a href="https://oeis.org/wiki/User:Michel_Marcus">Michel Marcus</a>さんから</li>
 </ul>
-<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout callout-style-default callout-tip no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
-<i class="callout-icon"></i>
+<i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Tip
+提案
 </div>
 </div>
 <div class="callout-body-container callout-body">
@@ -409,13 +408,13 @@ Tip
 </div>
 </div>
 <p>と質問がありました。そこで，数列をc(n)からa(n)に修正して</p>
-<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout callout-style-default callout-tip no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
-<i class="callout-icon"></i>
+<i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Tip
+回答
 </div>
 </div>
 <div class="callout-body-container callout-body">
@@ -428,13 +427,13 @@ Tip
 <section id="三角形の行で読み取るシーケンス" class="level3">
 <h3 class="anchored" data-anchor-id="三角形の行で読み取るシーケンス">三角形の行で読み取るシーケンス</h3>
 <p>今度は，<a href="https://oeis.org/wiki/User:Andrew_Howroyd">Andrew Howroyd</a> さんからいくつかの提案がありました。</p>
-<div class="callout callout-style-default callout-caution callout-titled">
+<div class="callout callout-style-default callout-caution no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
-<i class="callout-icon"></i>
+<i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Caution
+注意
 </div>
 </div>
 <div class="callout-body-container callout-body">
@@ -447,13 +446,13 @@ Caution
 </div>
 <p>なるほど，こうやっていろんな方が指摘してくれるのか。ありがたい！</p>
 <div style="page-break-after: always;"></div>
-<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout callout-style-default callout-important no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
-<i class="callout-icon"></i>
+<i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Important
+定義
 </div>
 </div>
 <div class="callout-body-container callout-body">
@@ -471,13 +470,13 @@ Important
 <section id="tnkのテーブルを作成" class="level3">
 <h3 class="anchored" data-anchor-id="tnkのテーブルを作成">T(n,k)のテーブルを作成</h3>
 <p>Andrew Howroyd さんがテーブルを作ってくれました。（<span class="math inline">\(n=9\)</span>まで） <span class="math inline">\(n=13\)</span>までのテーブルを書いてみました。</p>
-<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout callout-style-default callout-important no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
-<i class="callout-icon"></i>
+<i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Important
+テーブル
 </div>
 </div>
 <div class="callout-body-container callout-body">

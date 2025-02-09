@@ -29,7 +29,8 @@ format:
 
 (1)の$\fbox{ア}$〜$\fbox{キ}$に異なる自然数を入れる場合を考えます。
 
-:::{.callout-note}
+:::{.callout-note icon=false}
+## 問題
 $$\frac{1}{\fbox{ア}}+\frac{2}{\fbox{イ}}+\frac{3}{\fbox{ウ}}+\frac{4}{\fbox{エ}}+\frac{5}{\fbox{オ}}+\frac{6}{\fbox{カ}}+\frac{7}{\fbox{キ}}=7$$
 :::
 
@@ -40,7 +41,8 @@ $$\frac{1}{\fbox{ア}}+\frac{2}{\fbox{イ}}+\frac{3}{\fbox{ウ}}+\frac{4}{\fbox{
 まずは解の1組はちょっと考えるとわかります。
 
 
-:::{.callout-note}
+:::{.callout-note icon=false}
+## 答え
 $$\frac{1}{1}+\frac{2}{2}+\frac{3}{3}+\frac{4}{4}+\frac{5}{5}+\frac{6}{6}+\frac{7}{7}=7$$
 
 :::
@@ -99,7 +101,8 @@ Y
 
 
 
-:::{.callout-note}
+:::{.callout-note icon=false}
+## 確認
 
 $$\begin{align}
 &\frac{1}{4}+\frac{2}{8}+\frac{3}{9}+\frac{4}{2}+\frac{5}{5}+\frac{6}{3}+\frac{7}{6}
@@ -116,8 +119,8 @@ $$\begin{align}
 
 7個をを求めた後に，「6個だとどうなるだろう？」と思いますよね。
 
-:::{.callout-note}
-$n=6$のとき
+:::{.callout-note icon=false}
+## $n=6$ のとき
 
 $$\frac{1}{\fbox{ア}}+\frac{2}{\fbox{イ}}+\frac{3}{\fbox{ウ}}+\frac{4}{\fbox{エ}}+\frac{5}{\fbox{オ}}+\frac{6}{\fbox{カ}}=6$$
 :::
@@ -142,7 +145,8 @@ Y
 
 個数を変化させると面白そうだったので，$n=1$から$n=9$まで調べてみました。
 
-:::{.callout-note}
+:::{.callout-note icon=false}
+## 拡張
 - $n=1,2,3,...,9$
 - $x_1$〜$x_n$は1〜9の数が入り，重複はありません。
 
@@ -190,14 +194,16 @@ end
 
 - [Michel Marcus](https://oeis.org/wiki/User:Michel_Marcus)さんから
 
-:::{.callout-tip}
+:::{.callout-tip icon=false}
+## 提案
 「数列はc(n)じゃなくてa(n)がいいよ。この数列はこれで終わり？有限？」
 
 :::
 
 と質問がありました。そこで，数列をc(n)からa(n)に修正して
 
-:::{.callout-tip}
+:::{.callout-tip icon=false}
+## 回答
 「シーケンスはc(n)からa(n)に変更しました。このシーケンスは有限ですが、拡張できます。現在、1桁の数字1から9までからn個の整数を選択し、それらを順列に並べることによって形成されています。しかし、これは代わりに1からmまでの数字を選択することで一般化できます。mの値ごとに、有限列が生成できると思います。」
 :::
 
@@ -209,7 +215,8 @@ end
 
 今度は，[Andrew Howroyd](https://oeis.org/wiki/User:Andrew_Howroyd) さんからいくつかの提案がありました。
 
-:::{.callout-caution}
+:::{.callout-caution icon=false}
+## 注意
 - 「ASCII文字のみにしてください。（特別な下付き文字/上付き文字ではありません）」
 
 - n=1...9からの制限が取り除かれれば、これははるかに良いだろうと考えます。それはどのように数字を変えますか？それ以外の場合は、n がシーケンスの長さであり、数字が 1..k. から選択される三角形 T(n,k) を作成します。 (これはあなたが持っているものに最も近いでしょう)
@@ -221,7 +228,8 @@ end
 
 {{< pagebreak >}}
 
-:::{.callout-important}
+:::{.callout-important  icon=false}
+## 定義
 三角形の行で読み取るシーケンス： $T(n,k)$ 
 
 - $n$行目には$n$個の数字が並びます。
@@ -240,7 +248,8 @@ $$ \frac{1}{x_1} + \frac{2}{x_2} + \cdots + \frac{k}{x_k} = k $$
 Andrew Howroyd さんがテーブルを作ってくれました。（$n=9$まで）
 $n=13$までのテーブルを書いてみました。
 
-:::{.callout-important}
+:::{.callout-important icon=false}
+## テーブル
 |T(n,k)|k = 1..n|
 |:---:|:---|
 |T(1,k)|1;|

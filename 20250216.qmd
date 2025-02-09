@@ -9,12 +9,6 @@ format:
     toc-location: right
 ---
 
-本日の内容のサイトはこちらです。（QRコード）
-
-![](QR.png){width=50%}
-
-{{< pagebreak >}}
-
 ## はじめに（自己紹介）
 
 
@@ -73,7 +67,7 @@ Juliaは統計処理や科学技術計算、機械学習に強いプログラミ
 
 ### Julia言語で調べてみる
 ```{julia}
-#| code-fold: true
+#| code-fold: false
 #| code-summary: "Show the code"
 using Combinatorics
 
@@ -114,7 +108,7 @@ $n=6$のとき
 $$\frac{1}{\fbox{ア}}+\frac{2}{\fbox{イ}}+\frac{3}{\fbox{ウ}}+\frac{4}{\fbox{エ}}+\frac{5}{\fbox{オ}}+\frac{6}{\fbox{カ}}=6$$
 
 ```{julia}
-#| code-fold: true
+#| code-fold: false
 #| code-summary: "Show the code"
 using Combinatorics
 
@@ -133,15 +127,15 @@ Y
 
 個数を変化させると面白そうだったので，$n=1$から$n=9$まで調べてみました。
 
+$x_1$〜$x_n$は1〜9の数が入り，重複はありません。
 
-$n=1$から$9$のとき
 
 $$\frac{1}{x_1}+\frac{2}{x_2}+\cdots+\frac{n}{x_n}=n$$
 
 
 
 ```{julia}
-#| code-fold: true
+#| code-fold: false
 #| code-summary: "Show the code"
 using Combinatorics
 

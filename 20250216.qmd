@@ -16,7 +16,7 @@ format:
 {{< pagebreak >}}
 
 
-## 横山 明日希さんのXのポスト
+### 横山 明日希さんのXのポスト
 
 [横山 明日希（@asunokibou）](https://x.com/asunokibou)さんのXのポストで次のような問題がありました。
 
@@ -27,6 +27,7 @@ format:
 
 {{< pagebreak >}}
 
+### (1)の答え
 (1)の$\fbox{ア}$〜$\fbox{キ}$に異なる自然数を入れる場合を考えます。
 
 :::{.callout-note icon=false}

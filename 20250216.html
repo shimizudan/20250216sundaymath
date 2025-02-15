@@ -110,8 +110,11 @@ window.Quarto = {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#はじめに自己紹介" id="toc-はじめに自己紹介" class="nav-link active" data-scroll-target="#はじめに自己紹介">はじめに（自己紹介）</a></li>
+  <li><a href="#はじめに自己紹介" id="toc-はじめに自己紹介" class="nav-link active" data-scroll-target="#はじめに自己紹介">はじめに（自己紹介）</a>
+  <ul class="collapse">
   <li><a href="#横山-明日希さんのxのポスト" id="toc-横山-明日希さんのxのポスト" class="nav-link" data-scroll-target="#横山-明日希さんのxのポスト">横山 明日希さんのXのポスト</a></li>
+  <li><a href="#の答え" id="toc-の答え" class="nav-link" data-scroll-target="#の答え">(1)の答え</a></li>
+  </ul></li>
   <li><a href="#julia言語" id="toc-julia言語" class="nav-link" data-scroll-target="#julia言語">Julia言語</a>
   <ul class="collapse">
   <li><a href="#julia言語の紹介" id="toc-julia言語の紹介" class="nav-link" data-scroll-target="#julia言語の紹介">Julia言語の紹介</a></li>
@@ -167,13 +170,15 @@ window.Quarto = {
 <h2 class="anchored" data-anchor-id="はじめに自己紹介">はじめに（自己紹介）</h2>
 <p><img src="0011.png" class="img-fluid"></p>
 <div style="page-break-after: always;"></div>
-</section>
-<section id="横山-明日希さんのxのポスト" class="level2">
-<h2 class="anchored" data-anchor-id="横山-明日希さんのxのポスト">横山 明日希さんのXのポスト</h2>
+<section id="横山-明日希さんのxのポスト" class="level3">
+<h3 class="anchored" data-anchor-id="横山-明日希さんのxのポスト">横山 明日希さんのXのポスト</h3>
 <p><a href="https://x.com/asunokibou">横山 明日希（<span class="citation" data-cites="asunokibou">@asunokibou</span>）</a>さんのXのポストで次のような問題がありました。</p>
 <p><img src="002.png" class="img-fluid"></p>
 <p><a href="https://x.com/asunokibou/status/1858851048510947649">https://x.com/asunokibou/status/1858851048510947649</a></p>
 <div style="page-break-after: always;"></div>
+</section>
+<section id="の答え" class="level3">
+<h3 class="anchored" data-anchor-id="の答え">(1)の答え</h3>
 <p>(1)の<span class="math inline">\(\fbox{ア}\)</span>〜<span class="math inline">\(\fbox{キ}\)</span>に異なる自然数を入れる場合を考えます。</p>
 <div class="callout callout-style-default callout-note no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
@@ -205,6 +210,7 @@ window.Quarto = {
 <p>「他にあるのか？あるとしたら何組あるか？」が気になりました。</p>
 <div style="page-break-after: always;"></div>
 </section>
+</section>
 <section id="julia言語" class="level2">
 <h2 class="anchored" data-anchor-id="julia言語">Julia言語</h2>
 <p>まずは，いつものようにJulia言語で調べてみることにしました。</p>
@@ -218,7 +224,7 @@ window.Quarto = {
 </section>
 <section id="julia言語で調べてみる" class="level3">
 <h3 class="anchored" data-anchor-id="julia言語で調べてみる">Julia言語で調べてみる</h3>
-<div id="41aab539" class="cell" data-execution_count="1">
+<div id="e495ac79" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">Combinatorics</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> [i for i <span class="op">=</span><span class="fl">1</span><span class="op">:</span><span class="fl">9</span>] <span class="op">|&gt;</span> <span class="fu">x-&gt;permutations</span>(x,<span class="fl">7</span>)</span>
@@ -229,7 +235,7 @@ window.Quarto = {
 <span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">end</span></span>
 <span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="cf">end</span></span>
 <span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>Y</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="87">
+<div class="cell-output cell-output-display" data-execution_count="7">
 <pre><code>54-element Vector{Any}:
  [1, 2, 3, 4, 5, 6, 7]
  [1, 2, 3, 8, 5, 4, 7]
@@ -296,7 +302,7 @@ window.Quarto = {
 <p><span class="math display">\[\frac{1}{\fbox{ア}}+\frac{2}{\fbox{イ}}+\frac{3}{\fbox{ウ}}+\frac{4}{\fbox{エ}}+\frac{5}{\fbox{オ}}+\frac{6}{\fbox{カ}}=6\]</span></p>
 </div>
 </div>
-<div id="e2a8d91b" class="cell" data-execution_count="2">
+<div id="a12f5cf2" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">Combinatorics</span></span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> [i for i <span class="op">=</span><span class="fl">1</span><span class="op">:</span><span class="fl">9</span>] <span class="op">|&gt;</span> <span class="fu">x-&gt;permutations</span>(x,<span class="fl">6</span>)</span>
@@ -307,7 +313,7 @@ window.Quarto = {
 <span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">end</span></span>
 <span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a><span class="cf">end</span></span>
 <span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>Y</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="88">
+<div class="cell-output cell-output-display" data-execution_count="8">
 <pre><code>40-element Vector{Any}:
  [1, 2, 3, 4, 5, 6]
  [1, 2, 3, 8, 5, 4]
@@ -356,7 +362,7 @@ window.Quarto = {
 <p><span class="math display">\[\frac{1}{x_1}+\frac{2}{x_2}+\cdots+\frac{n}{x_n}=n\]</span></p>
 </div>
 </div>
-<div id="2745227e" class="cell" data-execution_count="3">
+<div id="57d723eb" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">Combinatorics</span></span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">c</span>(n)</span>

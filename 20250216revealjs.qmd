@@ -3,10 +3,7 @@ title: "オンライン整数大辞典(OEIS)に数列を登録してみた！"
 author: "清水　団　Dan Shimizu ([@dannchu](https://twitter.com/dannchu)) "
 date: "2025/02/16"
 jupyter: julia-1.10
-format:
-  html:
-    toc: true
-    toc-location: right
+format: revealjs
 ---
 
 ## はじめに
@@ -15,6 +12,7 @@ format:
 
  ![](0011.png)
 
+---
 
 ### 横山 明日希さんのXのポスト
 
@@ -300,7 +298,7 @@ $$ \frac{1}{x_1} + \frac{2}{x_2} + \cdots + \frac{k}{x_k} = k $$
 {{< pagebreak >}}
 ### T(n,k)のテーブルを作成
 
-Andrew Howroyd さんがテーブルを作ってくれました。
+Andrew Howroyd さんがテーブルを作ってくれました。（$n=9$まで）
 $n=13$までのテーブルを書いてみました。
 
 :::{.callout-important icon=false}
